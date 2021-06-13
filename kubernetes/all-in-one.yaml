@@ -1,0 +1,46 @@
+  
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: flask-new
+
+######Affichage des namespaces:
+### kubectl get namespace
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-new
+  labels:
+    app: flask-new
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-new
+  template:
+    metadata:
+      labels:
+        app: flask-new
+    spec:
+      containers:
+      - name: flask-new
+        image: tftest/flask-new:latest
+        ports:
+        - containerPort: 5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-new
+spec:
+  selector:
+    app: flask-new
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
